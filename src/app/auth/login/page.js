@@ -37,12 +37,23 @@ const SignInPage = () => {
         <div className="auth-box">
           <h1>Welcome to Lode</h1>
           <label>Email:</label>
-          <input type="email" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
+          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
           <label>Password:</label>
-          <input type="password" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} />
-          <button type="submit" onClick={handleSubmit}>Sign In</button>
+          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+          <a href="/auth/register" className="forgot-password"> Forgot your password?</a>
+          <button1 className='button1' type="button" onClick={handleSubmit}>Log In</button1>
           {error && <div className="error">{error}</div>}
-          <p>Don't have an account? <a href="/auth/register">Sign up</a></p>
+          <button2 className="button2" type="button">
+              <img 
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+              alt="Google Logo" className="google-logo"
+              />
+              Continue with Google
+          </button2>
+          <a href="/auth/register" className="join-waitlist"> No account? Click here to join the waitlist!</a>
+          {/*
+           Remember to redirect the waitlist link
+          */}
         </div>
       </div>
 
