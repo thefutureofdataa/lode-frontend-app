@@ -41,15 +41,15 @@ const SignInPage = () => {
           <label>Password:</label>
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
           <a href="/auth/register" className="forgot-password"> Forgot your password?</a>
-          <button1 className='button1' type="button" onClick={handleSubmit}>Log In</button1>
+          <button className='button1' type="button" onClick={handleSubmit}>Log In</button>
           {error && <div className="error">{error}</div>}
-          <button2 className="button2" type="button">
+          <button className="button2" type="button">
               <img 
               src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
               alt="Google Logo" className="google-logo"
               />
               Continue with Google
-          </button2>
+          </button>
           <a href="/auth/register" className="join-waitlist"> No account? Click here to join the waitlist!</a>
           {/*
            Remember to redirect the waitlist link
