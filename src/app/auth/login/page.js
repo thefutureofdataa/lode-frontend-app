@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 import './page.css'
 import NavBar from '../../../components/NavBar'
 
@@ -21,8 +22,10 @@ const SignInPage = () => {
       setLoading(false)
       if (email === 'test@test.com' && password === 'password') {
         alert('Sign in successful!')
+        toast.success('Sign in successful!')
       } else {
         setError('Invalid email or password')
+        toast.error('Invalid email or password')
       }
     }, 1000)
   }
@@ -56,7 +59,12 @@ const SignInPage = () => {
           */}
         </div>
       </div>
-
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        closeOnClick
+      />
     </>
   )
 }
