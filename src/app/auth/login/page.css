@@ -16,7 +16,6 @@
 
 .auth-box h1 {
     text-align: center;
-    font-family: Arial, sans-serif;
     font-size: 2em;
     margin-bottom: 10px;
     font-weight: 800;
@@ -24,7 +23,6 @@
 
 .auth-box label {
     display: block;
-    font-family: Arial, sans-serif;
     font-size: .8em;
 }
 
