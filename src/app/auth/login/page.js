@@ -14,6 +14,7 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (loading) return; // Prevent spamming
     setLoading(true)
     setError('')
 
@@ -27,31 +28,35 @@ const SignInPage = () => {
         setError('Invalid email or password')
         toast.error('Invalid email or password')
       }
-    }, 1000)
+    }, 2000)
   }
 
   return (
     <>
       <NavBar />
-      {
-        loading && <div>Loading...</div>
-      }
+      {loading && (
+        <div className="loading-container">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="auth-container">
         <div className="auth-box">
           <h1>Welcome to Lode</h1>
           <label>Email:</label>
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} disabled={loading} />
           <label>Password:</label>
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} disabled={loading} />
           <a href="/auth/register" className="forgot-password"> Forgot your password?</a>
-          <button className='button1' type="button" onClick={handleSubmit}>Log In</button>
+          <button className='button1' type="button" onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Logging In...' : 'Log In'}
+          </button>
           {error && <div className="error">{error}</div>}
-          <button className="button2" type="button">
-              <img 
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+          <button className="button2" type="button" disabled={loading}>
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
               alt="Google Logo" className="google-logo"
-              />
-              Continue with Google
+            />
+            Continue with Google
           </button>
           <a href="/auth/register" className="join-waitlist"> No account? Click here to join the waitlist!</a>
           {/*
