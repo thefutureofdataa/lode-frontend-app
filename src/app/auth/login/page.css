@@ -119,6 +119,28 @@
     justify-content: center;
 }
 
+.password-container {
+    position: relative;
+}
+
+.password-input-container .form-input {
+    padding-right: 3rem;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+    color: #A9A9A9;
+}
+
+.eye-icon:hover {
+    color: #000000;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
