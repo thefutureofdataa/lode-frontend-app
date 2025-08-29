@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import './page.css'
 import NavBar from '../../../components/NavBar'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const SignInPage = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -46,7 +48,12 @@ const SignInPage = () => {
             <label>Email:</label>
             <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} disabled={loading} />
             <label>Password:</label>
-            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} disabled={loading} />
+            <div className="password-container">
+              <input type={showPassword ? 'text' : 'password'} placeholder="Password" onChange={(e) => setPassword(e.target.value)} disabled={loading} />
+              {
+                showPassword ? <FaEye className="eye-icon" onClick={() => setShowPassword(!showPassword)} /> : <FaEyeSlash className="eye-icon" onClick={() => setShowPassword(!showPassword)} />
+              }
+            </div>
             <a href="/auth/register" className="forgot-password"> Forgot your password?</a>
             <button className='button1' type="submit" disabled={loading}>
               {loading ? 'Logging In...' : 'Log In'}
