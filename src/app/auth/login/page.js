@@ -5,14 +5,26 @@ import { ToastContainer, toast } from 'react-toastify'
 import './page.css'
 import NavBar from '../../../components/NavBar'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 
-const SignInPage = () => {
+const SignInContainer = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log('Google login successful:', tokenResponse)
+      // Handle successful login here
+    },
+    onError: (error) => {
+      console.error('Google login failed:', error)
+      // Handle login error here
+    },
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -59,7 +71,7 @@ const SignInPage = () => {
               {loading ? 'Logging In...' : 'Log In'}
             </button>
             {error && <div className="error">{error}</div>}
-            <button className="button2" type="button" disabled={loading}>
+            <button className="button2" type="button" onClick={googleLogin} disabled={loading}>
               <img
                 src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
                 alt="Google Logo" className="google-logo"
@@ -83,4 +95,10 @@ const SignInPage = () => {
   )
 }
 
-export default SignInPage
+export default function SignInPage() {
+  return (
+    <GoogleOAuthProvider clientId="66977101197-168430a7bdk3b5v5njavu9rktn7d75ic.apps.googleusercontent.com">
+      <SignInContainer />
+    </GoogleOAuthProvider>
+  )
+}
