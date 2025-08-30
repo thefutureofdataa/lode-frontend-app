@@ -15,23 +15,36 @@ const SignInPage = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleGoogleSignIn = async () => {
+  const loginWithGooglePopup = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `http://localhost:3000`,   // must be allow-listed
-        scopes: 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-        queryParams: { access_type: 'offline', prompt: 'consent' } // get refreshable Google tokens if you need them
+        redirectTo: `${location.origin}/auth/callback`, // allow-list this
+        skipBrowserRedirect: true,                      // <- key for popup
+        scopes: 'openid email profile',
+        queryParams: { prompt: 'consent', access_type: 'offline' }
       }
     })
-  }
+    if (error) throw error;
 
+    const popup = window.open(
+      data?.url,                                   // Supabase’s Google auth URL
+      'sb-google',
+      'width=500,height=600,noopener'
+    );
+
+    // Detect sign-in via broadcast/onAuthStateChange and then close the popup
+    const { data: sub } = supabase.auth.onAuthStateChange((evt) => {
+      if (evt === 'SIGNED_IN') popup?.close();
+    });
+    // remember to unsubscribe on unmount if you’re in React
+  }
 
   const GoogleButton = () => {
     return (
       <button
         className="button2"
-        onClick={handleGoogleSignIn}>
+        onClick={loginWithGooglePopup}>
         <img
           src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
           alt="Google Logo" className="google-logo"
