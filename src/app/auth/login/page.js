@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import './page.css'
 import NavBar from '../../../components/NavBar'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { supabase } from "./client.js";
 
 const SignInPage = () => {
 
@@ -13,6 +14,32 @@ const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const handleGoogleSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `http://localhost:3000`,   // must be allow-listed
+        scopes: 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        queryParams: { access_type: 'offline', prompt: 'consent' } // get refreshable Google tokens if you need them
+      }
+    })
+  }
+
+
+  const GoogleButton = () => {
+    return (
+      <button
+        className="button2"
+        onClick={handleGoogleSignIn}>
+        <img
+          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          alt="Google Logo" className="google-logo"
+        />
+        Continue with Google
+      </button>
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -59,13 +86,7 @@ const SignInPage = () => {
               {loading ? 'Logging In...' : 'Log In'}
             </button>
             {error && <div className="error">{error}</div>}
-            <button className="button2" type="button" disabled={loading}>
-              <img
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                alt="Google Logo" className="google-logo"
-              />
-              Continue with Google
-            </button>
+            <GoogleButton />
             <a href="/auth/register" className="join-waitlist"> No account? Click here to join the waitlist!</a>
             {/*
              Remember to redirect the waitlist link
