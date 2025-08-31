@@ -9,37 +9,42 @@ export async function GET(request) {
 		next = "/"
 	}
 
-	if (code) {
-		const supabase = await createClient()
-		const { error } = await supabase.auth.exchangeCodeForSession(code)
-		if (!error) {
-			const { data: { user } } = await supabase.auth.getUser()
-			if (!user) {
-				return NextResponse.redirect(`${origin}/error?reason=auth_code_error`)
-			}
-            const { data: allowedUser } = await supabase
-                .from('allowed_users')
-                .select('id')
-                .eq('email', user.email)
-                .single()
+	const supabase = await createClient()
 
-            if (!allowedUser) {
-                await supabase.auth.signOut()
-                return NextResponse.redirect(`${origin}/error?reason=unauthorized`)
-            }
-            const forwardedHost = request.headers.get("x-forwarded-host") // original origin before load balancer
-			const isLocalEnv = process.env.NODE_ENV === "development"
-			if (isLocalEnv) {
-				// we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-				return NextResponse.redirect(`${origin}${next}`)
-			} else if (forwardedHost) {
-				return NextResponse.redirect(`https://${forwardedHost}${next}`)
-			} else {
-				return NextResponse.redirect(`${origin}${next}`)
-			}
-		}
+	// Exchange the ?code (PKCE) for a session and set HttpOnly cookies
+	const { error } = await supabase.auth.exchangeCodeForSession(code)
+	if (error) {
+		console.log("error", error)
+		return new NextResponse(`<p>Auth failed: ${error.message}</p>`, {
+			headers: { "Content-Type": "text/html" },
+			status: 400,
+		})
 	}
 
-	// return the user to an error page with instructions
-	return NextResponse.redirect(`${origin}/error?reason=auth_code_error`)
+	const {data: { user } } = await supabase.auth.getUser()
+	if (!user) {
+		return NextResponse.redirect(`${origin}/error?reason=auth_code_error`)
+	}
+	const { data: allowedUser } = await supabase.from("allowed_users").select("id").eq("email", user.email).single()
+
+	if (!allowedUser) {
+		await supabase.auth.signOut()
+		return NextResponse.redirect(`${origin}/error?reason=unauthorized`)
+	}
+
+	// Return minimal HTML that runs IN THE POPUP
+	const html = `
+		<!doctype html><meta charset="utf-8">
+		<script>
+			try {
+			if (window.opener && !window.opener.closed) {
+				// Send message to parent window
+				window.opener.postMessage({ type: 'supabase-auth' }, location.origin);
+			}
+			} finally {
+			window.close();
+			}
+		</script>
+	`
+	return new NextResponse(html, { headers: { "Content-Type": "text/html" } })
 }
