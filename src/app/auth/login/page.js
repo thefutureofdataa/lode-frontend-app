@@ -19,7 +19,7 @@ const SignInPage = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`, // allow-list this
+        redirectTo: `${location.origin}/auth/callback?returnTo=/app`, // allow-list this
         skipBrowserRedirect: true,                      // <- key for popup
         scopes: 'openid email profile',
         queryParams: { prompt: 'consent', access_type: 'offline' }
