@@ -157,13 +157,9 @@ const SignInPage = () => {
 						</button>
 						{error && <div className="error">{error}</div>}
 						<GoogleButton />
-						<a href="/auth/register" className="join-waitlist">
-							{" "}
+						<a href="/waitlist" className="join-waitlist">
 							No account? Click here to join the waitlist!
 						</a>
-						{/*
-             Remember to redirect the waitlist link
-            */}
 					</form>
 				</div>
 			</div>
