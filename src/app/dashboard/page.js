@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { createClient } from "@/app/utils/supabase/client.js"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import NavBar from "../../components/NavBar"
 import "./page.css"
 
@@ -82,7 +84,7 @@ const DashboardPage = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <h1>Protected Dashboard</h1>
-          <p>🎉 Congratulations! You've successfully accessed a protected page.</p>
+          <p>🎉 Congratulations! You have successfully accessed a protected page.</p>
           
           <div className="user-info">
             <h2>User Information</h2>
@@ -100,7 +102,7 @@ const DashboardPage = () => {
                       <p><strong>Full Name:</strong> {user.user_metadata.full_name}</p>
                     )}
                     {user.user_metadata.avatar_url && (
-                      <p><strong>Avatar:</strong> <img src={user.user_metadata.avatar_url} alt="Avatar" style={{width: '50px', height: '50px', borderRadius: '50%'}} /></p>
+                      <p><strong>Avatar:</strong> <Image src={user.user_metadata.avatar_url} alt="Avatar" style={{width: '50px', height: '50px', borderRadius: '50%'}} width={50} height={50} /></p>
                     )}
                   </div>
                 )}
@@ -140,9 +142,9 @@ const DashboardPage = () => {
             <button onClick={handleLogout} className="logout-btn">
               Logout
             </button>
-            <a href="/" className="home-link">
+            <Link href="/" className="home-link">
               Go to Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>
