@@ -5,7 +5,7 @@ import { signup } from "./actions"
 import ReCAPTCHA from "react-google-recaptcha"
 import "./page.css"
 
-const page = () => {
+const WaitListPage = () => {
     const [email, setEmail] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -72,4 +72,4 @@ const page = () => {
 	)
 }
 
-export default page
+export default WaitListPage
