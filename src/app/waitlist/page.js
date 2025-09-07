@@ -1,29 +1,25 @@
 "use client"
 
 import { useState } from "react"
-import NavBar from "../../components/NavBar"
 import { signup } from "./actions"
 import "./page.css"
 
 const page = () => {
-	
     const [email, setEmail] = useState("")
     const [error, setError] = useState("")
-    const [success, setSuccess] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError("")
-        setSuccess("")
         setLoading(true)
 
         try {
             const result = await signup(email)
             
             if (result.success) {
-                setSuccess("Successfully joined the waitlist!")
-                setEmail("") // Clear the form
+                setEmail("")
+				window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeB5DJiw-CX2g0zL_hLjGqxY4eMFug-J65X3Xvzx6PE8qBStQ/viewform"
             } else {
                 setError(result.error)
             }
@@ -36,13 +32,15 @@ const page = () => {
 
     return (
 		<>
-			<NavBar />
+			{loading && (
+				<div className="loading-container">
+					<div className="spinner"></div>
+				</div>
+			)}
 			<div className="waitlist-container">
 				<div className="waitlist-box">
-					<h1>Waitlist</h1>
-					<p>Join the waitlist to get early access to the app.</p>
+					<h1>Join the waitlist to get early access</h1>
 					<form onSubmit={handleSubmit}>
-						<label>Email:</label>
 						<input 
 							type="email" 
 							placeholder="Email" 
@@ -56,7 +54,6 @@ const page = () => {
 						</button>
 					</form>
 					{error && <div className="error-message">{error}</div>}
-					{success && <div className="success-message">{success}</div>}
 				</div>
 			</div>
 		</>
