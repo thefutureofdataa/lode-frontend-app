@@ -83,7 +83,7 @@ const DashboardPage = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <h1>Protected Dashboard</h1>
-          <p>🎉 Congratulations! You've successfully accessed a protected page.</p>
+          <p>🎉 Congratulations! You have successfully accessed a protected page.</p>
           
           <div className="user-info">
             <h2>User Information</h2>
