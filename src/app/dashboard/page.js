@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { createClient } from "@/app/utils/supabase/client.js"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import NavBar from "../../components/NavBar"
 import "./page.css"
 
@@ -141,9 +142,9 @@ const DashboardPage = () => {
             <button onClick={handleLogout} className="logout-btn">
               Logout
             </button>
-            <a href="/" className="home-link">
+            <Link href="/" className="home-link">
               Go to Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>
