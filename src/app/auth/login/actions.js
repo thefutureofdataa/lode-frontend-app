@@ -36,7 +36,7 @@ export async function signup(formData) {
 	const { data: user, error } = await supabase.auth.signUp(data)
 
 	if (user) {
-		const { error: whitelistError } = await supabase.from("allowed_users").insert([
+		const { error: whitelistError } = await supabase.from("user_waitlist").insert([
 			{
 				email: user.email,
 				created_at: new Date().toISOString(),
