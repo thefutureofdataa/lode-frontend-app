@@ -25,9 +25,13 @@ export async function GET(request) {
 	if (!user) {
 		return NextResponse.redirect(`${origin}/error?reason=auth_code_error`)
 	}
-	const { data: allowedUser } = await supabase.from("user_waitlist").select("id").eq("email", user.email).single()
+	const { data: allowedUser } = await supabase
+		.from("user_waitlist")
+		.select("allowed")
+		.eq("email", user.email)
+		.single()
 
-	if (!allowedUser) {
+	if (!allowedUser || allowedUser.allowed !== true) {
 		await supabase.auth.signOut()
 		return NextResponse.redirect(`${origin}/error?reason=unauthorized`)
 	}
