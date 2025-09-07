@@ -2,20 +2,28 @@
 
 import { useState } from "react"
 import { signup } from "./actions"
+import ReCAPTCHA from "react-google-recaptcha"
 import "./page.css"
 
 const page = () => {
     const [email, setEmail] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+	const [captchaToken, setCaptchaToken] = useState("")
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError("")
         setLoading(true)
 
+        if (!captchaToken) {
+            setError("Please complete the captcha")
+            setLoading(false)
+            return
+        }
+
         try {
-            const result = await signup(email)
+            const result = await signup(email, captchaToken)
             
             if (result.success) {
                 setEmail("")
@@ -49,6 +57,10 @@ const page = () => {
 							required
 							disabled={loading}
 						/>
+						<ReCAPTCHA className="captcha"
+                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                            onChange={(token) => setCaptchaToken(token || "")}
+                        />
 						<button type="submit" className="button" disabled={loading}>
 							{loading ? "Joining..." : "Join"}
 						</button>

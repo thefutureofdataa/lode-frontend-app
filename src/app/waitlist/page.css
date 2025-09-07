@@ -35,6 +35,13 @@
     border-radius: 12px;
 }
 
+.waitlist-box .captcha {
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .waitlist-box .button {
     background-color: #D2D4D8;
     color: #ffffff;
