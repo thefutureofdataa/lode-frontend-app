@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { createClient } from "@/app/utils/supabase/client.js"
 import { useRouter } from "next/navigation"
 import NavBar from "../../components/NavBar"
@@ -100,7 +101,7 @@ const DashboardPage = () => {
                       <p><strong>Full Name:</strong> {user.user_metadata.full_name}</p>
                     )}
                     {user.user_metadata.avatar_url && (
-                      <p><strong>Avatar:</strong> <img src={user.user_metadata.avatar_url} alt="Avatar" style={{width: '50px', height: '50px', borderRadius: '50%'}} /></p>
+                      <p><strong>Avatar:</strong> <Image src={user.user_metadata.avatar_url} alt="Avatar" style={{width: '50px', height: '50px', borderRadius: '50%'}} width={50} height={50} /></p>
                     )}
                   </div>
                 )}

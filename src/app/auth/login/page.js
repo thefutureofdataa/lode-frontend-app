@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { ToastContainer, toast } from "react-toastify"
 import "./page.css"
 import NavBar from "../../../components/NavBar"
@@ -103,7 +104,7 @@ const SignInPage = () => {
 	const GoogleButton = () => {
 		return (
 			<button type="button" className="button2" onClick={loginWithGooglePopup} disabled={loading}>
-				<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" className="google-logo" />
+				<Image src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" className="google-logo" width={20} height={20} />
 				Continue with Google
 			</button>
 		)
